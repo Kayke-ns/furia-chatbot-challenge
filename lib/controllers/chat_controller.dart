@@ -13,11 +13,13 @@ class ChatController {
   bool _userSentFirstMessage = false;
   bool _isTyping = false;
   bool _initialized = false;
+  bool _expectingMvpVote = false;
 
   VoidCallback? onNewMessage;
   VoidCallback? onTypingStateChanged;
 
   bool get isTyping => _isTyping;
+  bool get expectingMvpVote => _expectingMvpVote;
 
   void initialize() {
     if (!_initialized) {
@@ -94,15 +96,24 @@ class ChatController {
   void _handleBotResponse(String userMessage) {
     String? response;
 
-    for (var key in botResponses.keys) {
-      if (userMessage.toLowerCase().contains(key.toLowerCase())) {
-        response = botResponses[key];
-        break;
+    // Verifica se é uma resposta da enquete MVP
+    if (_expectingMvpVote && ['1','2','3','4','5'].contains(userMessage.trim())) {
+      response = mvpResponses[userMessage.trim()];
+      _expectingMvpVote = false;
+    }
+    else {
+      // Lógica normal de resposta
+      for (var key in botResponses.keys) {
+        if (userMessage.toLowerCase().contains(key.toLowerCase())) {
+          response = botResponses[key];
+          if (key == "🎯 MVP do jogo") _expectingMvpVote = true;
+          break;
+        }
       }
+      response ??= "🤔 Não entendi. Tente uma das opções abaixo!";
     }
 
-    response ??= "🤔 Não entendi. Tente uma das opções abaixo!";
-    addMessage(Message(response, true));
+    addMessage(Message(response!, true));
   }
 
   void dispose() {

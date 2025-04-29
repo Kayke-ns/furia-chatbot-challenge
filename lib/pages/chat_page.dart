@@ -11,7 +11,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
-  late final ChatController _controller;
+  late final ChatController _chatController;
   late final AnimationController _typingAnimationController;
 
   @override
@@ -22,7 +22,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 500),
     )..repeat(reverse: true);
 
-    _controller = ChatController()
+    _chatController = ChatController()
       ..onNewMessage = _refreshUI
       ..onTypingStateChanged = _refreshUI
       ..initialize();
@@ -36,12 +36,15 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _chatController.dispose();
     _typingAnimationController.dispose();
     super.dispose();
   }
 
   Widget _buildQuickButtons() {
+    if (_chatController.expectingMvpVote) {
+      return _buildMvpPollButtons();
+    }
     final quickReplies = botResponses.keys.toList();
 
     return SizedBox(
@@ -60,7 +63,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: ElevatedButton(
-                    onPressed: () => _controller.sendMessage(quickReplies[index]),
+                    onPressed: () => _chatController.sendMessage(quickReplies[index]),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1E1E1E),
                       shape: RoundedRectangleBorder(
@@ -80,7 +83,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   }
 
   Widget _buildTypingIndicator() {
-    return _controller.isTyping
+    return _chatController.isTyping
         ? Padding(
       padding: const EdgeInsets.only(left: 12.0, bottom: 8),
       child: Row(
@@ -126,14 +129,14 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           children: [
             Expanded(
               child: ListView.builder(
-                controller: _controller.scrollController,
-                itemCount: _controller.messages.length + (_controller.isTyping ? 1 : 0),
+                controller: _chatController.scrollController,
+                itemCount: _chatController.messages.length + (_chatController.isTyping ? 1 : 0),
                 itemBuilder: (context, index) {
-                  if (index >= _controller.messages.length) {
+                  if (index >= _chatController.messages.length) {
                     return _buildTypingIndicator();
                   }
                   return ChatBubble(
-                    msg: _controller.messages[index],
+                    msg: _chatController.messages[index],
                     animation: AnimationController(
                       vsync: this,
                       duration: const Duration(milliseconds: 300),
@@ -149,13 +152,13 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _controller.textController,
-                      onSubmitted: _controller.sendMessage,
+                      controller: _chatController.textController,
+                      onSubmitted: _chatController.sendMessage,
                       decoration: InputDecoration(
                         hintText: "Digite sua mensagem...",
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.send),
-                          onPressed: () => _controller.sendMessage(_controller.textController.text),
+                          onPressed: () => _chatController.sendMessage(_chatController.textController.text),
                         ),
                       ),
                     ),
@@ -166,6 +169,37 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildMvpPollButtons() {
+    return Column(
+      children: [
+        const Text('Vote no MVP:', style: TextStyle(fontSize: 16)),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          children: [
+            _buildPlayerButton('1', 'arT'),
+            _buildPlayerButton('2', 'KSCERATO'),
+            _buildPlayerButton('3', 'yuurih'),
+            _buildPlayerButton('4', 'chelo'),
+            _buildPlayerButton('5', 'drop'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPlayerButton(String number, String name) {
+    return ElevatedButton(
+      onPressed: () => _chatController.sendMessage(number),
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        padding: const EdgeInsets.all(12),
+        backgroundColor: const Color(0xFF1A1A1A),
+      ),
+      child: Text(number, style: const TextStyle(color: Colors.white)),
     );
   }
 }
