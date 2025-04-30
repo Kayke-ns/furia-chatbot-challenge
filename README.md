@@ -68,16 +68,7 @@ flutter run
 
 ## 📸 Screenshots
 
-<div align="center" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-
-  <figure style="flex: 1; min-width: 250px;">
-    <img src="screenshots/Screenshot_20250430_145024.png" width="100%" alt="Landing Page">
-    <figcaption style="text-align: center; font-size: 0.9em; margin-top: 8px;">Tela Inicial</figcaption>
-  </figure>
-
-  <figure style="flex: 1; min-width: 250px;">
-    <img src="screenshots/Screenshot_20250430_145230.png" width="100%" alt="Tela Principal">
-    <figcaption style="text-align: center; font-size: 0.9em; margin-top: 8px;">Chat Principal</figcaption>
-  </figure>
-
+<div align="left" style="display: flex; gap: 5px; justify-content: center;">
+  <img src="screenshots/Screenshot_20250430_145024.png" width="200" style="border: 1px solid #333; border-radius: 3px;">
+  <img src="screenshots/Screenshot_20250430_145230.png" width="200" style="border: 1px solid #333; border-radius: 3px;">
 </div>
