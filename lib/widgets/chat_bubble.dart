@@ -26,7 +26,7 @@ class ChatBubble extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.8, // 80% da largura da tela
+              maxWidth: MediaQuery.of(context).size.width * 0.8,
             ),
             child: Column(
               crossAxisAlignment: msg.isBot ? CrossAxisAlignment.start : CrossAxisAlignment.end,
@@ -48,8 +48,8 @@ class ChatBubble extends StatelessWidget {
                       fontSize: 16,
                       color: msg.isBot ? Colors.white : Colors.black,
                     ),
-                    softWrap: true, // Quebra de linha automática
-                    overflow: TextOverflow.visible, // Evita cortar texto
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
                   ),
                 ),
                 Padding(

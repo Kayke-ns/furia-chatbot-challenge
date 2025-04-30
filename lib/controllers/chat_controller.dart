@@ -54,7 +54,7 @@ class ChatController {
   }
 
   void _startAutomaticMessages() {
-    _automaticMessagesTimer = Timer.periodic(const Duration(seconds: 45), (timer) {
+    _automaticMessagesTimer = Timer.periodic(const Duration(seconds: 20), (timer) {
       if (_automaticMessageIndex < automaticMessages.length && _userSentFirstMessage) {
         _setTyping(true);
 
@@ -96,13 +96,11 @@ class ChatController {
   void _handleBotResponse(String userMessage) {
     String? response;
 
-    // Verifica se é uma resposta da enquete MVP
     if (_expectingMvpVote && ['1','2','3','4','5'].contains(userMessage.trim())) {
       response = mvpResponses[userMessage.trim()];
       _expectingMvpVote = false;
     }
     else {
-      // Lógica normal de resposta
       for (var key in botResponses.keys) {
         if (userMessage.toLowerCase().contains(key.toLowerCase())) {
           response = botResponses[key];

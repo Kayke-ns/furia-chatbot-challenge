@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furia_chatbot_challenge/pages/chat_page.dart';
+import 'package:furia_chatbot_challenge/pages/landing_page.dart';
 
 void main() {
   runApp(const FuriaChatApp());
@@ -15,7 +15,7 @@ class FuriaChatApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color(0xFF121212),
-        primaryColor: const Color(0xFFFFD700), // Amarelo FURIA
+        primaryColor: const Color(0xFFFFD700),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           secondary: const Color(0xFFFFD700),
           primary: const Color(0xFF000000),
@@ -48,7 +48,7 @@ class FuriaChatApp extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         ),
       ),
-      home: const ChatPage(),
+      home: const LandingPage(),
     );
   }
 }

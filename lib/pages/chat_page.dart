@@ -71,7 +71,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                         side: const BorderSide(color: Color(0xFFFFD700)),
                       ),
                     ),
-                    child: Text(quickReplies[index]),
+                    child: Text(quickReplies[index], style: TextStyle(color: Colors.white),),
                   ),
                 );
               },
@@ -153,11 +153,14 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                   Expanded(
                     child: TextField(
                       controller: _chatController.textController,
+                      style: const TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
                       onSubmitted: _chatController.sendMessage,
                       decoration: InputDecoration(
                         hintText: "Digite sua mensagem...",
+                        hintStyle: const TextStyle(color: Colors.white),
                         suffixIcon: IconButton(
-                          icon: const Icon(Icons.send),
+                          icon: const Icon(Icons.send, color: Colors.white),
                           onPressed: () => _chatController.sendMessage(_chatController.textController.text),
                         ),
                       ),
