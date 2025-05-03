@@ -54,7 +54,7 @@ class ChatController {
   }
 
   void _startAutomaticMessages() {
-    _automaticMessagesTimer = Timer.periodic(const Duration(seconds: 20), (timer) {
+    _automaticMessagesTimer = Timer.periodic(const Duration(seconds: 50), (timer) {
       if (_automaticMessageIndex < automaticMessages.length && _userSentFirstMessage) {
         _setTyping(true);
 
