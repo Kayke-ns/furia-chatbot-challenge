@@ -138,10 +138,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                   }
                   return ChatBubble(
                     msg: _chatController.messages[index],
-                    animation: AnimationController(
-                      vsync: this,
-                      duration: const Duration(milliseconds: 300),
-                    )..forward(),
                   );
                 },
               ),
